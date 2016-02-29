@@ -4,7 +4,12 @@ var cp = require('child_process');
 var path = require('path');
 var vscode = require('vscode');
 var bslGlobals = require('./bslGlobals');
-
+var configuration = vscode.workspace.getConfiguration('language-1c-bsl');
+var autocomplitlanguage = configuration.get("languageAutocomplite");
+if (!autocomplitlanguage){
+    autocomplitlanguage = "ru";
+}
+    
 var BSLDocumentSymbolProvider = (function () {
 	function BSLDocumentSymbolProvider() {
 		this.goKindToCodeKind = {
@@ -120,6 +125,8 @@ var BSLCompletionItemProvider = (function () {
   BSLCompletionItemProvider.prototype.provideCompletionItems = function (document, position, token) {
     var result = [];
     var added = {};
+    var wordAutocomplite = document.getText(document.getWordRangeAtPosition(position));
+    //console.log("BSLCompletionItemProvider"+wordAutocomplite);
     var createNewProposal = function (kind, name, entry) {
       var proposal = new vscode.CompletionItem(name);
       proposal.kind = kind;
@@ -133,30 +140,41 @@ var BSLCompletionItemProvider = (function () {
       }
       return proposal;
     };
-    for (var name in bslGlobals.globalvariables) {
-      if (bslGlobals.globalvariables.hasOwnProperty(name)) {
-        added[name] = true;
-        result.push(createNewProposal(vscode.CompletionItemKind.Variable, name, bslGlobals.globalvariables[name]));
-      }
+    
+    var wordMatch = new RegExp(".*", "i");
+    if (wordAutocomplite.length > 0) {
+        wordMatch = new RegExp(wordAutocomplite, "i");    
     }
-    for (var name in bslGlobals.globalfunctions) {
-      if (bslGlobals.globalfunctions.hasOwnProperty(name)) {
-        added[name] = true;
-        result.push(createNewProposal(vscode.CompletionItemKind.Function, name, bslGlobals.globalfunctions[name]));
-      }
-    }
-    for (var name in bslGlobals.keywords) {
-        if (bslGlobals.keywords.hasOwnProperty(name)) {
-            added[name] = true;
-            result.push(createNewProposal(vscode.CompletionItemKind.Keyword, name, bslGlobals.keywords[name]));
+    
+    try {
+        for (var name in bslGlobals.globalvariables[autocomplitlanguage]) {
+            if (bslGlobals.globalvariables[autocomplitlanguage].hasOwnProperty(name) && wordMatch.exec(name)!=null) {
+                added[name] = true;
+                result.push(createNewProposal(vscode.CompletionItemKind.Variable, name, bslGlobals.globalvariables[autocomplitlanguage][name]));
+            }
         }
+        for (var name in bslGlobals.globalfunctions[autocomplitlanguage]) {
+            if (bslGlobals.globalfunctions[autocomplitlanguage].hasOwnProperty(name) && wordMatch.exec(name)!=null) {
+                added[name] = true;
+                result.push(createNewProposal(vscode.CompletionItemKind.Function, name, bslGlobals.globalfunctions[autocomplitlanguage][name]));
+            }
+        }
+        for (var name in bslGlobals.keywords[autocomplitlanguage]) {
+            if (bslGlobals.keywords[autocomplitlanguage].hasOwnProperty(name) && wordMatch.exec(name)!=null) {
+                added[name] = true;
+                result.push(createNewProposal(13, name, bslGlobals.keywords[autocomplitlanguage][name]));
+            }
+        }    
+    
+    } catch (error) {
+        console.error(error)
     }
     var text = document.getText();
     var variableMatch = /(^|\s)(перем|var)\s+([a-zа-яё_][a-zа-яё_0-9]*)/ig;
     var match = null;
     while (match = variableMatch.exec(text)) {
       var word = match[3];
-      if (!added[word]) {
+      if (!added[word] || wordMatch.exec(word) != null) {
         added[word] = true;
         result.push(createNewProposal(vscode.CompletionItemKind.Variable, word, null));
       }
@@ -165,15 +183,18 @@ var BSLCompletionItemProvider = (function () {
     var match = null;
     while (match = functionMatch.exec(text)) {
       var word = match[3];
-      if (!added[word]) {
+      if (!added[word] && wordMatch.exec(word) != null ) {
         added[word] = true;
         result.push(createNewProposal(vscode.CompletionItemKind.Function, word, null));
       }
     }
-
+    
     for (var S = text.split(/[^а-яёА-ЯЁ_a-zA-Z]+/), _ = 0; _ < S.length; _++) {
       var word = S[_].trim();
-      if (!added[word] && word.length > 5) {
+      if (!added[word] && word.length > 5 && wordMatch.exec(word) != null) {
+          if (word == wordAutocomplite){
+              continue;
+          }
         added[word] = true;
         result.push(createNewProposal(vscode.CompletionItemKind.Text, word, null));
       }

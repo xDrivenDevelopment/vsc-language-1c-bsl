@@ -3,7 +3,7 @@ var vscode = require('vscode');
 var bslProviders = require('./providers');
 
 function activate(context) {
-
+    
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider("bsl", new bslProviders.DocumentSymbolProvider()));
 
   context.subscriptions.push(vscode.languages.registerDefinitionProvider("bsl", new bslProviders.DefinitionProvider()));
