@@ -3,7 +3,7 @@
     "displayName": "Language 1C (BSL)",
     "description": "Syntax highlighting for 1C:Enterprise 8.",
     "icon": "images/xDDIcon.png",
-    "version": "1.3.1",
+    "version": "1.3.3",
     "publisher": "xDrivenDevelopment",
     "galleryBanner": {
         "color": "#0000FF",
@@ -24,12 +24,24 @@
     "engines": {
         "vscode": "0.10.x"
     },
-    "main": "./src/extension",
+    "main": "./out/src/extension",
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+    },
     "activationEvents": [
         "onLanguage:bsl",
-        "onLanguage:sdbl"
+        "onLanguage:sdbl", 
+        "onCommand:bsl.update"
     ],
     "contributes": {
+        "commands": [
+            {
+                "command": "bsl.update",
+                "title": "reference cache update for bsl",
+                "category": "bsl"
+            }   
+        ],
         "configuration": {
             "title": "Language 1C (BSL) configuration",
             "properties": {
@@ -38,10 +50,19 @@
                     "type": "boolean",
                     "default": true
                 },
+                "language-1c-bsl.onescriptPath": {
+                    "description": "OneScript path to check",
+                    "type": "string"
+                },
                 "language-1c-bsl.lintBSLFiles": {
                     "description": "Enable this if you want to check `*.bsl` files via OneScriptLint",
                     "type": "boolean",
-                    "default": false
+                    "default": false                        
+                },
+                "language-1c-bsl.languageAutocomplete": {
+                    "description": "Autocomplete language en/ru",
+                    "type": "string",
+                    "default": "ru"                  
                 }
             }
         },
@@ -68,5 +89,18 @@
                 "path": "./syntaxes/1c-query.tmLanguage"
             }
         ]
-    }
+    },
+    "devDependencies": {
+    "typescript": "^1.6.2",
+    "vscode": "0.10.x"
+  },
+  "dependencies": {
+    "child-process-promise": "^1.1.0",
+    "fs-readfile-promise": "^2.0.1",
+    "iconv-lite": "^0.4.13",
+    "lokijs": "^1.3.11",
+    "onec-syntaxparser": "^0.1.5",
+    "underscore": "^1.8.3"
+  }
+	
 }
