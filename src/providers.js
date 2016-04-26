@@ -228,7 +228,14 @@ var BSLLintProvider = (function (_super) {
           return;
       }
       var args = ['-encoding=utf-8', '-check'];
-      args.push(filename);
+	  args.push(filename);
+	  
+	  // в settings.json можно задать точку входа, чтобы линтер понимал окружение
+	  var linterEntryPoint = vscode.workspace.getConfiguration("language-1c-bsl").get("linterEntryPoint");
+	  if(linterEntryPoint !== undefined){
+		  args.push("-env="+vscode.workspace.rootPath+"/"+linterEntryPoint);
+	  };
+	  
       var options = {
         cwd: path.dirname(filename),
         env: process.env
