@@ -1,78 +1,136 @@
 {
-    "name": "language-1c-bsl",
-    "displayName": "Language 1C (BSL)",
-    "description": "Syntax highlighting for 1C:Enterprise 8.",
-    "icon": "images/xDDIcon.png",
-    "version": "1.4.8",
-    "publisher": "xDrivenDevelopment",
-    "galleryBanner": {
-        "color": "#0000FF",
-        "theme": "dark"
-    },
-    "license": "LICENSE.md",
-    "bugs": {
-        "url": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl/issues"
-    },
-    "homepage": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl/blob/master/README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl.git"
-    },
-    "categories": [
-        "Languages"
+  "name": "language-1c-bsl",
+  "displayName": "Language 1C (BSL)",
+  "description": "Syntax highlighting for 1C:Enterprise 8.",
+  "icon": "images/xDDIcon.png",
+  "version": "1.5.0-beta0",
+  "publisher": "xDrivenDevelopment",
+  "galleryBanner": {
+    "color": "#0000FF",
+    "theme": "dark"
+  },
+  "license": "LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl/issues"
+  },
+  "homepage": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xDrivenDevelopment/vsc-language-1c-bsl.git"
+  },
+  "categories": [
+    "Languages"
+  ],
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "main": "./out/src/extension",
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "activationEvents": [
+    "onLanguage:bsl",
+    "onLanguage:sdbl",
+    "onCommand:language-1c-bsl.update"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "language-1c-bsl.update",
+        "title": "Update reference cache",
+        "category": "Language 1C (BSL)"
+      },
+      {
+        "command": "language-1c-bsl.createComments",
+        "title": "Create comment to current method",
+        "category": "Language 1C (BSL)"
+      },
+      {
+        "command": "language-1c-bsl.syntaxHelper",
+        "title": "Show syntax-helper",
+        "category": "Language 1C (BSL)"
+      }
     ],
-    "engines": {
-        "vscode": "0.10.x"
-    },
-    "main": "./src/extension",
-    "activationEvents": [
-        "onLanguage:bsl",
-        "onLanguage:sdbl"
-    ],
-    "contributes": {
-        "configuration": {
-            "title": "Language 1C (BSL) configuration",
-            "properties": {
-                "language-1c-bsl.enableOneScriptLinter": {
-                    "description": "Lint files through `OneScript -check` command",
-                    "type": "boolean",
-                    "default": true
-                },
-                "language-1c-bsl.lintBSLFiles": {
-                    "description": "Enable this if you want to check `*.bsl` files via OneScriptLint",
-                    "type": "boolean",
-                    "default": false
-                }
-            }
+    "configuration": {
+      "title": "Language 1C (BSL) configuration",
+      "properties": {
+        "language-1c-bsl.enableOneScriptLinter": {
+          "description": "Lint files through `OneScript -check` command",
+          "type": "boolean",
+          "default": true
         },
-        "languages": [
-            {
-                "id": "bsl",
-                "extensions": [ ".bsl", ".os" ],
-                "aliases": [ "1C (BSL)", "BSL" ]
-            },
-            {
-                "id": "sdbl",
-                "aliases": [ "1C (Query)", "SDBL" ]
-            }
-        ],
-        "grammars": [
-            {
-                "language": "bsl",
-                "scopeName": "source.bsl",
-                "path": "./syntaxes/1c.tmLanguage"
-            },
-            {
-                "language": "sdbl",
-                "scopeName": "source.sdbl",
-                "path": "./syntaxes/1c-query.tmLanguage"
-            }
-        ],
-        "snippets": [
-    		{
-    			"language": "bsl",
-    			"path": "./snippets/snippets.json"
-    		}
-    	]
-    }
+        "language-1c-bsl.onescriptPath": {
+          "description": "Full path to oscript binary. Fill this only if oscript is not in your $PATH",
+          "type": "string"
+        },
+        "language-1c-bsl.lintOtherExtensions": {
+          "description": "List of extensions (except `os`) to lint via OneScriptLint. (format - 'bsl,txt')",
+          "type": "string",
+          "default": ""
+        },
+        "language-1c-bsl.linterEntryPoint": {
+          "description": "Entry point for OneScriptLinter. Relative path from project root folder",
+          "type": "string"
+        },
+        "language-1c-bsl.languageAutocomplete": {
+          "description": "Autocomplete language (en/ru)",
+          "type": "string",
+          "default": "ru"
+        },
+        "language-1c-bsl.rootPath": {
+          "description": "Путь по умолчанию к корню файла конфигурации (./src/cf) относительно каталога workspace для правильного autocomplete",
+          "type": "string"
+        }
+      }
+    },
+    "keybindings": [{
+        "command": "language-1c-bsl.syntaxHelper",
+        "key": "ctrl+f1",
+        "mac": "cmd+f1",
+        "when": "editorTextFocus && editorLangId == 'bsl'"
+    }],
+    "languages": [
+      {
+        "id": "bsl",
+        "extensions": [ ".bsl", ".os" ],
+        "aliases": [ "1C (BSL)", "BSL" ]
+      },
+      {
+        "id": "sdbl",
+        "extensions": [ ".query" ],
+        "aliases": [ "1C (Query)", "SDBL" ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "bsl",
+        "scopeName": "source.bsl",
+        "path": "./syntaxes/1c.tmLanguage"
+      },
+      {
+        "language": "sdbl",
+        "scopeName": "source.sdbl",
+        "path": "./syntaxes/1c-query.tmLanguage"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "bsl",
+        "path": "./snippets/snippets.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "typescript": "1.8.9",
+    "vscode": "^0.11.10"
+  },
+  "dependencies": {
+    "child-process-promise": "^1.1.0",
+    "filequeue": "^0.5.0",
+    "iconv-lite": "^0.4.13",
+    "lokijs": "^1.3.16",
+    "onec-syntaxparser": "0.1.8"
+  }
 }
