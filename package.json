@@ -141,6 +141,7 @@
       {
         "id": "sdbl",
         "extensions": [
+          ".sdbl",
           ".query"
         ],
         "aliases": [
