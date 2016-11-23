@@ -26,7 +26,7 @@
   },
   "main": "./out/src/extension",
   "scripts": {
-    "test:unit": "NODE_ENV=test mocha --recursive --compilers ts:ts-node/register --bail",
+    "test:unit": "node ./node_modules/vscode/bin/test",
     "test": "NODE_ENV=test nyc npm run test:unit",
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
