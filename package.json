@@ -222,7 +222,7 @@
     "@types/glob": "^5.0.30",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.32",
-    "@types/should": "^8.1.30",
+    "@types/should": "^11.2.0",
     "cross-env": "^5.0.0",
     "decache": "^4.1.0",
     "istanbul": "^0.4.5",
