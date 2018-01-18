@@ -13,11 +13,6 @@ jdk:
   - oraclejdk8
 
 before_install: 
-  - if [ $TRAVIS_OS_NAME == "linux" ]; then 
-      export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
-    fi
   - wget -O os.deb https://files.gitter.im/EvilBeaver/OneScript/VreX/onescript-engine_1.0.17_all.deb
   - sudo apt-get install mono-complete mono-devel
   - sudo dpkg -i os.deb; sudo apt install -f
