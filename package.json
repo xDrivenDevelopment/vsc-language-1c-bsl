@@ -273,7 +273,7 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
-    "cross-spawn": "^5.1.0",
+    "cross-spawn": "^6.0.0",
     "filequeue": "^0.5.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
