@@ -275,7 +275,7 @@
   "dependencies": {
     "cross-spawn": "^6.0.5",
     "filequeue": "^0.5.0",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "glob": "^7.1.2",
     "iconv-lite": "^0.4.21",
     "lokijs": "^1.5.3",
