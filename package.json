@@ -269,7 +269,7 @@
     "should": "^13.2.1",
     "tslint": "^5.10.0",
     "tslint-sonarts": "^1.7.0",
-    "typescript": "^2.9.2",
+    "typescript": "^3.1.1",
     "vscode": "^1.1.18"
   },
   "dependencies": {
