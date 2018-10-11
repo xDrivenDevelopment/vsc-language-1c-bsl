@@ -8,6 +8,7 @@
 [![codecov](https://codecov.io/gh/1c-syntax/vsc-language-1c-bsl/branch/develop/graph/badge.svg)](https://codecov.io/gh/1c-syntax/vsc-language-1c-bsl)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=vsc-language-bsl-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=vsc-language-bsl-plugin)
 [![Greenkeeper badge](https://badges.greenkeeper.io/1c-syntax/vsc-language-1c-bsl.svg)](https://greenkeeper.io/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F1c-syntax%2Fvsc-language-1c-bsl.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2F1c-syntax%2Fvsc-language-1c-bsl?ref=badge_shield)
 
 Добавляет подсветку встроенного языка 1С:Предпрятие 8 файлам \*.bsl и \*.os - синтаксис `1C (BSL)`.  
 Добавляет подсветку текста запросов языка запросов 1С: внутри текста модуля или отдельно - синтаксис `1C (Query)`.
@@ -80,3 +81,6 @@ Contributions are greatly appreciated. Development is carried in a parent reposi
 
 ![query-vsc](https://cloud.githubusercontent.com/assets/1132840/13007618/9e6f578a-d1a2-11e5-9e30-7d48a269450d.PNG)
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F1c-syntax%2Fvsc-language-1c-bsl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2F1c-syntax%2Fvsc-language-1c-bsl?ref=badge_large)
