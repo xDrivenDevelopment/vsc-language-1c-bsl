@@ -281,7 +281,7 @@
     "lokijs": "^1.5.5",
     "onec-syntaxparser": "0.1.11",
     "xml2js": "^0.4.19",
-    "fast-xml-parser": "3.12.9",
+    "fast-xml-parser": "3.12.10",
     "alignment": "0.0.1"
   }
 }
