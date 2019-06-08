@@ -8,6 +8,7 @@ import {
     ServerOptions
 } from "vscode-languageclient";
 import * as which from "which";
+import { BSL_MODE } from "./../const";
 
 export default class LanguageClientProvider {
     public async registerLanguageClient(context: vscode.ExtensionContext) {
@@ -74,8 +75,8 @@ export default class LanguageClientProvider {
 
         const clientOptions: LanguageClientOptions = {
             documentSelector: [
-                { scheme: "file", language: "bsl" },
-                { scheme: "untitled", language: "bsl" }
+                { scheme: "file", language: BSL_MODE.toString() },
+                { scheme: "untitled", language: BSL_MODE.toString() },
             ],
             synchronize: {
                 fileEvents: vscode.workspace.createFileSystemWatcher("**/*.{os,bsl}")
