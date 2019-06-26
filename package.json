@@ -318,7 +318,7 @@
     "filequeue": "^0.5.0",
     "fs-extra": "^8.0.1",
     "glob": "^7.1.4",
-    "iconv-lite": "^0.4.24",
+    "iconv-lite": "^0.5.0",
     "lokijs": "^1.5.6",
     "onec-syntaxparser": "0.1.11",
     "vscode-languageclient": "^5.2.1",
