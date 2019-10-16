@@ -102,6 +102,11 @@
         "command": "language-1c-bsl.openContent",
         "title": "OpenContent",
         "category": "Language 1C (BSL)"
+      },
+      {
+        "command": "language-1c-bsl.annotations.toggle",
+        "title": "Hide / Show Annotations",
+        "category": "Language 1C (BSL)"
       }
     ],
     "menus": {
@@ -199,9 +204,40 @@
           "default": [
             "-Xmx2g"
           ]
+        },
+        "language-1c-bsl.annotations.enabled": {
+          "type": "boolean",
+          "description": "Enable Inline Annotations",
+          "default": true
+        },
+        "language-1c-bsl.annotations.hideInvalidAnnotation": {
+          "type": "boolean",
+          "description": "Hide annotations for invalid params",
+          "default": true
+        },
+        "language-1c-bsl.annotations.hideDiagnostics": {
+          "type": "boolean",
+          "description": "Hide red squiggles under invalid parameters",
+          "default": false
+        },
+        "language-1c-bsl.annotations.hideIfEqual": {
+          "type": "boolean",
+          "description": "Hide annotation if argument name matches parameter name",
+          "default": true
         }
       }
     },
+    "colors": [
+      {
+        "id": "language1cbsl.annotations.annotationForeground",
+        "description": "Specifies the foreground color for the annotations",
+        "defaults": {
+          "dark": "#ccc",
+          "light": "#444",
+          "highContrast": "#444"
+        }
+      }
+    ],
     "keybindings": [
       {
         "command": "language-1c-bsl.syntaxHelper",
@@ -226,6 +262,11 @@
         "key": "shift+enter",
         "mac": "shift+enter",
         "when": "editorTextFocus && editorLangId == 'bsl'"
+      },
+      {
+        "command": "language-1c-bsl.annotations.toggle",
+        "key": "ctrl+k a",
+        "mac": "cmd+k a"
       }
     ],
     "languages": [

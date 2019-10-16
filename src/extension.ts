@@ -27,7 +27,12 @@ import { MethodDetect } from "./features/methodDetect";
 import * as vscAdapter from "./vscAdapter";
 
 import LibProvider from "./libProvider";
+
+import * as decorator from "./features/annotations/decorator";
+import { IFunctionCallObject } from "./features/annotations/functionCallObject";
+
 const libProvider = new LibProvider();
+let diagnostics: vscode.Diagnostic[];
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -486,6 +491,16 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(
+        // Command to hide / show annotations
+        vscode.commands.registerCommand("language-1c-bsl.annotations.toggle", () => {
+            const currentState = vscode.workspace.getConfiguration("language-1c-bsl.annotations")
+                .get("enabled");
+            vscode.workspace.getConfiguration("language-1c-bsl.annotations")
+                .update("enabled", !currentState, true);
+        })
+    );
+
+    context.subscriptions.push(
         vscode.commands.registerCommand(CMD_OPENCONT, label => {
             global.methodForDescription = {
                 label,
@@ -745,6 +760,7 @@ export function activate(context: vscode.ExtensionContext) {
         );
     }
     global.updateCache();
+
 }
 
 function createComments(global, all: boolean) {
@@ -933,4 +949,56 @@ function fillParams(params, comment, enMode) {
         comment += "\n";
     }
     return comment;
+}
+
+export async function createDecorations(
+            editor: vscode.TextEditor,
+            sourceCode: string
+        ): Promise<vscode.DecorationOptions[][]> {
+    diagnostics = [];
+
+    const decArray: vscode.DecorationOptions[] = [];
+    const errDecArray: vscode.DecorationOptions[] = [];
+
+    // get an array of all said function calls in the file
+    let fcArray = getFunctionCalls(sourceCode, editor);
+
+    // grab the definitions for any of the function calls which can find a definition
+    fcArray = await getDefinitions(fcArray, editor.document.uri);
+
+    // cache for documents so they aren't loaded for every single call
+    const documentCache: any = {};
+
+    // filter down to function calls which actually have a definition
+    const callsWithDefinitions = fcArray.filter((item) => item.definitionLocation !== undefined);
+
+    for (const fc of callsWithDefinitions) {
+      await decorator.decorateFunctionCall(editor, documentCache, decArray, errDecArray, fc, diagnostics);
+    }
+
+    return [decArray, errDecArray];
+}
+
+function getFunctionCalls(sourceCode: string, editor: vscode.TextEditor): IFunctionCallObject[] {
+    return null;
+}
+
+async function getDefinitions(fcArray: IFunctionCallObject[], uri: vscode.Uri): Promise<IFunctionCallObject[]> {
+    return new Promise<IFunctionCallObject[]>(async (resolve) => {
+        for (const fc of fcArray) {
+            if (fc.functionRange === undefined) {
+              continue;
+            }
+            // grab an array of locations for the definitions of a function call
+            const locations = await vscode.commands.executeCommand<vscode.Location[]>(
+                    "vscode.executeDefinitionProvider",
+                    uri,
+                    fc.functionRange.start
+                );
+
+            if (locations !== undefined && locations.length > 0) {
+                //
+            }
+        }
+    });
 }
