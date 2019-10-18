@@ -189,7 +189,7 @@
         "language-1c-bsl.javaPath": {
           "description": "Path to Java runtime binary. Leave default value to use java from PATH.",
           "type": "string",
-          "default": "languageserver/bsl-language-server.exe"
+          "default": "java"
         },
         "language-1c-bsl.javaOpts": {
           "description": "Addititonal java options.",
