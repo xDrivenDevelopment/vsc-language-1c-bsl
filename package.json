@@ -352,7 +352,7 @@
     "json-date-parser": "^1.0.1",
     "lokijs": "^1.5.8",
     "onec-syntaxparser": "0.1.11",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "request-progress": "^3.0.0",
     "request-promise-native": "^1.0.8",
     "semver": "^7.1.1",
