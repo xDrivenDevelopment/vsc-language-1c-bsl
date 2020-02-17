@@ -357,7 +357,7 @@
     "request-promise-native": "^1.0.8",
     "semver": "^7.1.1",
     "vsce": "^1.71.0",
-    "vscode-languageclient": "^6.1.0",
+    "vscode-languageclient": "^6.1.1",
     "which": "^2.0.2",
     "xml2js": "^0.4.23"
   }
