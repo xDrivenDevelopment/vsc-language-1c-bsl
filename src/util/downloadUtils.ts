@@ -37,7 +37,8 @@ export function download(
     proxySettings: string = null
 ): Promise<void> {
     return new Promise((resolve, reject) => {
-        requestProgress(request.get(srcUrl))
+        var proxiedRq = request.defaults({proxy: proxySettings})
+        requestProgress(proxiedRq.get(srcUrl))
             .on("progress", state => progress(state.percent))
             .on("complete", () => resolve())
             .on("error", err => reject(err))
