@@ -36,6 +36,8 @@ import BSLLanguageServerDownloadChannel from "./bsllsDownloadChannel";
 import { download } from "./downloadUtils";
 import { IGitHubReleasesAPIResponse } from "./githubApi";
 import { IStatus } from "./status";
+import * as vscode from "vscode";
+import { LANGUAGE_1C_BSL_CONFIG } from "../const";
 
 const extractZip = promisify(extractZipWithCallback);
 
@@ -56,6 +58,7 @@ export class ServerDownloader {
     private readonly assetName: string;
     private readonly installDir: string;
     private readonly token: string;
+    private readonly proxySettings: string;
 
     constructor(
         displayName: string,
@@ -71,6 +74,12 @@ export class ServerDownloader {
         this.installDir = installDir;
         this.assetName = assetName;
         this.token = token;
+
+        const configuration = vscode.workspace.getConfiguration(LANGUAGE_1C_BSL_CONFIG);
+        var proxyFromConfig:string = configuration.get("languageServerDownloadProxy");
+        if(proxyFromConfig) {
+            this.proxySettings = proxyFromConfig;
+        }
     }
 
     public async downloadServerIfNeeded(status: IStatus, channel: BSLLanguageServerDownloadChannel): Promise<string> {
@@ -150,7 +159,10 @@ export class ServerDownloader {
 
         const rawJsonReleases = await requestPromise.get(
             `https://api.github.com/repos/${this.githubOrganization}/${this.githubProjectName}/releases`,
-            { headers }
+            { 
+                headers,
+                proxy: this.proxySettings || null
+            }
         );
 
         const releases = JSON.parse(rawJsonReleases, jsonDateParser) as IGitHubReleasesAPIResponse[];
@@ -172,7 +184,10 @@ export class ServerDownloader {
 
         const rawJson = await requestPromise.get(
             `https://api.github.com/repos/${this.githubOrganization}/${this.githubProjectName}/releases/${id}`,
-            { headers }
+            { 
+                headers,
+                proxy: this.proxySettings || null
+            }
         );
         return JSON.parse(rawJson) as IGitHubReleasesAPIResponse;
     }
@@ -211,9 +226,10 @@ export class ServerDownloader {
         status.update(`Downloading ${this.displayName} ${version}...`);
         await download(downloadUrl, downloadDest, percent => {
             status.update(
-                `Downloading ${this.displayName} ${version} :: ${(percent * 100).toFixed(2)} %`
-            );
-        });
+                `Downloading ${this.displayName} ${version} :: ${(percent * 100).toFixed(2)} %`);
+            },
+            this.proxySettings
+        );
 
         status.update(`Unpacking ${this.displayName} ${version}...`);
         await extractZip(downloadDest, { dir: path.join(this.installDir, version) });

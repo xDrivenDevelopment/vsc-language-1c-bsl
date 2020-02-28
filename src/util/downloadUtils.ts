@@ -33,7 +33,8 @@ const requestProgress = require("request-progress");
 export function download(
     srcUrl: string,
     destPath: fs.PathLike,
-    progress: (percent: number) => void
+    progress: (percent: number) => void,
+    proxySettings: string = null
 ): Promise<void> {
     return new Promise((resolve, reject) => {
         requestProgress(request.get(srcUrl))
