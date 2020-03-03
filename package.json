@@ -324,7 +324,7 @@
     "@types/extract-zip": "^1.6.2",
     "@types/fs-extra": "^8.0.1",
     "@types/glob": "^7.1.1",
-    "@types/mocha": "^5.2.7",
+    "@types/mocha": "^7.0.2",
     "@types/node": "13.5.1",
     "@types/request": "^2.48.4",
     "@types/request-promise-native": "^1.0.17",
