@@ -342,7 +342,7 @@
   },
   "dependencies": {
     "alignment": "0.0.1",
-    "cross-spawn": "^7.0.1",
+    "cross-spawn": "^7.0.2",
     "extract-zip": "^1.6.8",
     "fast-xml-parser": "3.15.1",
     "filequeue": "^0.5.0",
