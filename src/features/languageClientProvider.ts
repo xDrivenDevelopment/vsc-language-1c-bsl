@@ -1,4 +1,5 @@
 import * as child_process from "child_process";
+import * as dot from "dot-object";
 import * as fs from "fs-extra";
 import * as Paths from "path";
 import * as vscode from "vscode";
@@ -6,7 +7,13 @@ import {
     Executable,
     LanguageClient,
     LanguageClientOptions,
-    ServerOptions
+    ServerOptions,
+    NotificationType0,
+    DidOpenTextDocumentNotification,
+    ConfigurationRequest,
+    ConfigurationParams,
+    CancellationToken,
+    HandlerResult
 } from "vscode-languageclient";
 import * as which from "which";
 import { LANGUAGE_1C_BSL_CONFIG } from "../const";
@@ -143,11 +150,25 @@ export default class LanguageClientProvider {
                 { scheme: "untitled", language: "bsl" }
             ],
             synchronize: {
-                fileEvents: vscode.workspace.createFileSystemWatcher("**/*.{os,bsl}")
+                fileEvents: [
+                    vscode.workspace.createFileSystemWatcher("**/*.{os,bsl}"),
+                    vscode.workspace.createFileSystemWatcher("**/.bsl-language-server.json")
+                ]
             }
         };
 
-        return new LanguageClient("bsl", "BSL Language Server", serverOptions, clientOptions);
+        const languageClient = new LanguageClient("bsl", "BSL Language Server", serverOptions, clientOptions);
+        languageClient.onRequest(ConfigurationRequest.type, (params: ConfigurationParams, token: CancellationToken) => {
+            // TODO: call workspace/configuration after initialized-request on BSL LS side?
+
+            const configurationFile = this.getConfigurationFile() || "{}";
+
+            const configurationObject: object = JSON.parse(configurationFile);
+
+            return params.items.map(item => dot.pick(item.section, configurationObject));
+        });
+
+        return languageClient;
     }
 
     private async getExecutableJar(
@@ -187,7 +208,7 @@ export default class LanguageClientProvider {
         args.push(...javaOpts);
         args.push("-jar", languageServerPath);
 
-        const configurationFile = this.getConfigurationFile(configuration);
+        const configurationFile = this.getConfigurationFile();
         if (configurationFile) {
             args.push("-c", configurationFile);
         }
@@ -206,8 +227,7 @@ export default class LanguageClientProvider {
             child_process.exec(`chmod +x ${command}`);
         }
 
-        const configuration = vscode.workspace.getConfiguration(LANGUAGE_1C_BSL_CONFIG);
-        const configurationFile = this.getConfigurationFile(configuration);
+        const configurationFile = this.getConfigurationFile();
         if (configurationFile) {
             args.push("-c", configurationFile);
         }
@@ -219,7 +239,8 @@ export default class LanguageClientProvider {
         };
     }
 
-    private getConfigurationFile(configuration: vscode.WorkspaceConfiguration): string | undefined {
+    private getConfigurationFile(): string | undefined {
+        const configuration = vscode.workspace.getConfiguration(LANGUAGE_1C_BSL_CONFIG);
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let configurationFile: string;
         if (workspaceFolders) {
