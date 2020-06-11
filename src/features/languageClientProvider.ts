@@ -140,7 +140,7 @@ export default class LanguageClientProvider {
 
         const executable = languageServerExternalJar
             ? await this.getExecutableJar(context)
-            : this.getExecutableBinary(binaryName);
+            : await this.getExecutableBinary(binaryName);
 
         const serverOptions: ServerOptions = {
             run: executable,
@@ -197,7 +197,7 @@ export default class LanguageClientProvider {
         args.push(...javaOpts);
         args.push("-jar", languageServerPath);
 
-        const configurationFile = this.getConfigurationFile(configuration);
+        const configurationFile = await this.getConfigurationFile(configuration);
         if (configurationFile) {
             args.push("-c", configurationFile);
         }
@@ -209,7 +209,7 @@ export default class LanguageClientProvider {
         };
     }
 
-    private getExecutableBinary(command: string): Executable | undefined {
+    private async getExecutableBinary(command: string): Promise<Executable | undefined> {
         const args: string[] = [];
 
         if (isOSUnixoid()) {
@@ -217,7 +217,7 @@ export default class LanguageClientProvider {
         }
 
         const configuration = vscode.workspace.getConfiguration(LANGUAGE_1C_BSL_CONFIG);
-        const configurationFile = this.getConfigurationFile(configuration);
+        const configurationFile = await this.getConfigurationFile(configuration);
         if (configurationFile) {
             args.push("-c", configurationFile);
         }
@@ -229,19 +229,27 @@ export default class LanguageClientProvider {
         };
     }
 
-    private getConfigurationFile(configuration: vscode.WorkspaceConfiguration): string | undefined {
+    private async getConfigurationFile(configuration: vscode.WorkspaceConfiguration): Promise<string | undefined> {
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let configurationFile: string;
-        if (workspaceFolders) {
-            configurationFile = Paths.join(
-                workspaceFolders[0].uri.fsPath,
-                String(configuration.get("languageServerConfiguration"))
-            );
+        if (!workspaceFolders) {
+            return undefined;
+        }
+
+        configurationFile = Paths.join(
+            workspaceFolders[0].uri.fsPath,
+            String(configuration.get("languageServerConfiguration"))
+        );
+
+        const fileExists = await fs.pathExists(configurationFile);
+        if (!fileExists) {
+            return undefined;
         }
 
         if (configurationFile.includes(" ")) {
             configurationFile = `"${configurationFile}"`;
         }
+
         return configurationFile;
     }
 
