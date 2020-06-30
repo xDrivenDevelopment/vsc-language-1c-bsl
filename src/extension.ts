@@ -753,8 +753,26 @@ export function activate(context: vscode.ExtensionContext) {
     }
     
     function openSyntaxHelperPanel(syntaxHelper) {
+        const updateContent: boolean = !syntaxPanel;
+        if (Object.keys(global.contentData).length == 0) {
+            for (const dll in global.dllData) {
+                global.contentData[dll] = {};
+                global.contentData[dll].description = global.dllData[dll].description;
+                global.contentData[dll].content = global.dllData[dll].content;
+            }
+            for(const lib in global.libData) {
+                global.contentData[lib] = {};
+                global.contentData[lib].description = global.libData[lib].description;
+                global.contentData[lib].content = global.libData[lib].content;
+            }
+            for(const sp in global.syntaxHelpersData) {
+                global.contentData[sp] = {};
+                global.contentData[sp].description = global.syntaxHelpersData[sp].description;
+                global.contentData[sp].content = global.syntaxHelpersData[sp].content;
+            }
+        }
         checkSyntaxWebPanel();
-        syntaxHelper.updateContentPanel(syntaxPanel);
+        syntaxHelper.updateContentPanel(syntaxPanel, updateContent);
         syntaxPanel.reveal(vscode.ViewColumn.Two);
     }
 

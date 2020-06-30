@@ -116,21 +116,11 @@ export default class SyntaxExternalHelper extends AbstractSyntaxContent {
                 if (classDll === dllData.label) {
                     const defDll = libData[classDll];
                     if (libData[classDll].description) {
-                        globCont =
-                            globCont +
-                            "<h2 class='a' style='font-size: 1em;' onclick=\"readFile('" +
-                            libData[classDll].description
-                                .replace(/[\\]/g, "\\\\")
-                                .replace(/[\/]/g, "\\/") +
-                            "', '" +
-                            path.sep.replace(/[\\]/g, "\\\\").replace(/[\/]/g, "\\/") +
-                            "');\" > " +
-                            classDll +
-                            " </h2 >";
+                        globCont += `<h2 class='a' style='font-size: 1em;' onclick="readContent('${classDll}');">`;
                     } else {
-                        globCont =
-                            globCont + "<h2 style='font-size: 1em;'> " + classDll + " </h2 > <ul>";
+                        globCont += "<h2 style='font-size: 1em;'>";
                     }
+                    globCont += `${classDll}</h2>`;
                     const structureGlobContext = defDll.structureMenu;
                     if (structureGlobContext.global) {
                         globCont =
