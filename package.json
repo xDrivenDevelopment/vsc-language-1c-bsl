@@ -213,6 +213,11 @@
           ],
           "default": "stable"
         },
+        "language-1c-bsl.languageServerDownloadProxy": {
+          "description": "Proxy URL for downloading BSL LS binaries",
+          "type": "string",
+          "default": ""
+        },
         "language-1c-bsl.languageServerExternalJar": {
           "description": "Use external bsl-language-server.jar",
           "type": "boolean",
@@ -378,6 +383,7 @@
     "request": "^2.88.0",
     "request-progress": "^3.0.0",
     "request-promise-native": "^1.0.8",
+    "https-proxy-agent": "^5.0.0",
     "semver": "^7.1.1",
     "vsce": "^1.75.0",
     "vscode-languageclient": "^6.1.0",
