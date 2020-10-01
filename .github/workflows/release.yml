@@ -21,6 +21,7 @@ jobs:
             files: './.*.vsix'
             repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: lannonbr/vsce-action@master
+        if: github.event.release.prerelease == false
         with:
           args: "publish -p $VSCE_TOKEN"
         env:
