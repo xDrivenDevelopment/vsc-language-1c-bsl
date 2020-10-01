@@ -124,7 +124,7 @@ export class ServerDownloader {
             } else {
                 throw new Error(
                     `Latest GitHub release for ${this.githubProjectName}` +
-                        `does not contain the asset '${this.assetName}'!`
+                    `does not contain the asset '${this.assetName}'!`
                 );
             }
             newVersion = latestVersion;
@@ -136,6 +136,15 @@ export class ServerDownloader {
         });
 
         return newVersion;
+    }
+
+    public async installedVersionBSLLS(): Promise<string> {
+        const serverInfo = await this.installedServerInfo();
+        if (serverInfo) {
+            return serverInfo.version;
+        } else {
+            return "0.0.0";
+        }
     }
 
     private async latestStableReleaseInfo(): Promise<IGitHubReleasesAPIResponse> {

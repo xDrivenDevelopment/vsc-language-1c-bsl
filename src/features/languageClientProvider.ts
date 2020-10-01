@@ -63,8 +63,6 @@ export default class LanguageClientProvider {
             return;
         }
 
-        const downloadChannel = configuration.get<BSLLanguageServerDownloadChannel>("languageServerReleaseChannel");
-
         const langServerDownloader = new ServerDownloader(
             "BSL Language Server",
             "1c-syntax",
@@ -75,29 +73,36 @@ export default class LanguageClientProvider {
         );
 
         let installedVersion: string;
-        try {
-            installedVersion = await langServerDownloader.downloadServerIfNeeded(status, downloadChannel);
-        } catch (error) {
-            console.error(error);
-            vscode.window.showWarningMessage(
-                `Could not update/download BSL Language Server: ${error}`
-            );
-            return;
+            
+        const needDownload = Boolean(configuration.get<BSLLanguageServerDownloadChannel>("downloadLanguageServer"));
+        if (needDownload) {
+            const downloadChannel = configuration.get<BSLLanguageServerDownloadChannel>("languageServerReleaseChannel");
+
+            try {
+                installedVersion = await langServerDownloader.downloadServerIfNeeded(status, downloadChannel);
+            } catch (error) {
+                console.error(error);
+                vscode.window.showWarningMessage(
+                    `Could not update/download BSL Language Server: ${error}`
+                );
+                return;
+            }
+
+            const files = await fs.promises.readdir(langServerInstallDir, { encoding: "utf8" });
+            files
+                .filter(file => file !== "SERVER-INFO")    // todo: протекло
+                .filter(file => file !== installedVersion)
+                .map(file => Paths.join(langServerInstallDir, file))
+                .forEach(async file => {
+                    try {
+                        await fs.remove(file);
+                    } catch (err) {
+                        vscode.window.showWarningMessage(`Can't clean up old BSL LS file ${file}:\n${err}`);
+                    }
+                });
+        } else {
+            installedVersion = await langServerDownloader.installedVersionBSLLS();
         }
-
-        const files = await fs.promises.readdir(langServerInstallDir, {encoding: "utf8"});
-        files
-            .filter(file => file !== "SERVER-INFO")    // todo: протекло
-            .filter(file => file !== installedVersion)
-            .map(file => Paths.join(langServerInstallDir, file))
-            .forEach(async file => {
-                try {
-                    await fs.remove(file);
-                } catch (err) {
-                    vscode.window.showWarningMessage(`Can't clean up old BSL LS file ${file}:\n${err}`);
-                }
-            });
-
         const languageServerDir = Paths.join(langServerInstallDir, installedVersion);
 
         status.update("Initializing BSL Language Server...");
