@@ -199,6 +199,11 @@
           "type": "string",
           "default": ".bsl-language-server.json"
         },
+        "language-1c-bsl.downloadLanguageServer": {
+          "description": "Download the BSL Language Server from GitHub",
+          "type": "boolean",
+          "default": true
+        },
         "language-1c-bsl.githubToken": {
           "description": "GitHub OAuth token. Fill property if you get an `API rate limit exceeded` error with BSL LS downloading. Get new token: https://github.com/settings/tokens. No additional scopes are required. Can be obtained from enviroment variable $LANGUAGE_1C_BSL_GITHUB_TOKEN",
           "type": "string",
