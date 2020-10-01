@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
-      - name: Upload vsce to release
+      - name: Build package
+        run: vsce package
+      - name: Upload vsix to release
         uses: AButler/upload-release-assets@v1.0
         with:
             files: './.*.vsix'
