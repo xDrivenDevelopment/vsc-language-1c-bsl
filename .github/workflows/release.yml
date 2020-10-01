@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - name: Build package
-        run: vsce package
+        run: npx vsce package
       - name: Upload vsix to release
         uses: AButler/upload-release-assets@v1.0
         with:
