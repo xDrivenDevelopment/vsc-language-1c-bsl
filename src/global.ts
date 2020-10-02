@@ -49,6 +49,7 @@ export class Global {
     public subsystems: object = {};
     public oscriptCacheUpdated: boolean;
     public bslCacheUpdated: boolean;
+    public contentData: object = {};
 
     constructor(adapter?: any) {
         if (adapter) {
@@ -949,9 +950,16 @@ export class Global {
                     .match(/readme\.md/i);
                 dataDll[pathDll] = dllDesc;
                 if (readme) {
-                    dataDll[pathDll].description =
-                        (process.platform === "win32" ? "" : "file://") +
-                        path.join(path.dirname(path.dirname(syntaxHelp)), readme[0]);
+                        const pathToReadme = path.join(path.dirname(path.dirname(syntaxHelp)), readme[0]);
+                        dataDll[pathDll].description =
+                            (process.platform === "win32" ? "" : "file://") + pathToReadme;
+                        
+                        fs.readFile(pathToReadme, 'utf-8', (err, data) => {
+                            if (err) {
+                                return;    
+                            } 
+                            dataDll[pathDll].content = data;
+                        });
                 }
                 const classesOscript: Object = dllDesc["classes"];
                 const postfix = this.autocompleteLanguage === "en" ? "_en" : "";
@@ -1297,7 +1305,7 @@ export class Global {
                                 .match(/readme\.md/i);
                             this.libData[lib] = { modules: {}, content: '' };
                             if (readme) {
-                                var pathToReadme = path.join(path.dirname(libConfig), readme[0]);
+                                const pathToReadme = path.join(path.dirname(libConfig), readme[0]);
                                 this.libData[lib].description =
                                     (process.platform === "win32" ? "" : "file://") + pathToReadme;
                                 
@@ -1360,7 +1368,7 @@ export class Global {
                                 .match(/readme\.md/i);
                                 this.libData[lib] = { modules: {}, content: '' };
                             if (readme) {
-                                var pathToReadme = path.join(path.dirname(libConfig), readme[0]);
+                                const pathToReadme = path.join(path.dirname(libConfig), readme[0]);
                                 this.libData[lib].description =
                                     (process.platform === "win32" ? "" : "file://") + pathToReadme;
 

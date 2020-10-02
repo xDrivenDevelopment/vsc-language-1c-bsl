@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.22.0
+
+* Добавлена настройка `language-1c-bsl.downloadLanguageServer`, позволяющая отключить автоматические скачивание BSL Language Server с GitHub
+
 ## 1.21.1
 
 * Исправлена ошибка инициализации BSL Language Server в режиме открытия одного файла

@@ -3,7 +3,7 @@
   "displayName": "Language 1C (BSL)",
   "description": "Syntax highlighting for 1C:Enterprise 8.",
   "icon": "images/1c-syntax.png",
-  "version": "1.21.1",
+  "version": "1.22.0",
   "publisher": "1c-syntax",
   "galleryBanner": {
     "color": "#0000FF",
@@ -22,7 +22,7 @@
     "Programming Languages"
   ],
   "engines": {
-    "vscode": "^1.41.0"
+    "vscode": "^1.49.0"
   },
   "main": "./out/src/extension",
   "scripts": {
@@ -31,7 +31,6 @@
     "lint": "tslint --project tsconfig.json 'src/**/*.ts' -t verbose",
     "compile": "tsc -watch -p ./",
     "preLaunch": "tsc -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
@@ -199,6 +198,11 @@
           "type": "string",
           "default": ".bsl-language-server.json"
         },
+        "language-1c-bsl.downloadLanguageServer": {
+          "description": "Download the BSL Language Server from GitHub",
+          "type": "boolean",
+          "default": true
+        },
         "language-1c-bsl.githubToken": {
           "description": "GitHub OAuth token. Fill property if you get an `API rate limit exceeded` error with BSL LS downloading. Get new token: https://github.com/settings/tokens. No additional scopes are required. Can be obtained from enviroment variable $LANGUAGE_1C_BSL_GITHUB_TOKEN",
           "type": "string",
@@ -344,43 +348,43 @@
   },
   "devDependencies": {
     "@types/extract-zip": "^1.6.2",
-    "@types/fs-extra": "^8.0.1",
-    "@types/glob": "^7.1.1",
+    "@types/fs-extra": "^9.0.1",
+    "@types/glob": "^7.1.3",
     "@types/mocha": "^5.2.7",
     "@types/node": "13.5.1",
-    "@types/request": "^2.48.4",
+    "@types/request": "^2.48.5",
     "@types/request-promise-native": "^1.0.17",
-    "@types/semver": "^7.1.0",
+    "@types/semver": "^7.3.4",
+    "@types/vscode": "^1.49.0",
     "@types/which": "^1.3.2",
-    "cross-env": "^7.0.0",
-    "decache": "^4.5.1",
+    "cross-env": "^7.0.2",
+    "decache": "^4.6.0",
     "istanbul": "^0.4.5",
     "remap-istanbul": "^0.13.0",
     "should": "^13.2.3",
-    "snyk": "^1.321.0",
-    "tslint": "^6.0.0",
+    "snyk": "^1.406.0",
+    "tslint": "^6.1.3",
     "tslint-sonarts": "^1.9.0",
-    "typescript": "^3.7.5",
-    "vscode": "^1.1.36"
+    "typescript": "^4.0.3",
+    "vsce": "^1.80.0"
   },
   "dependencies": {
     "alignment": "0.0.1",
-    "cross-spawn": "^7.0.1",
-    "extract-zip": "^1.6.8",
-    "fast-xml-parser": "3.15.1",
+    "cross-spawn": "^7.0.3",
+    "extract-zip": "^2.0.1",
+    "fast-xml-parser": "3.17.4",
     "filequeue": "^0.5.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
-    "iconv-lite": "^0.5.1",
+    "iconv-lite": "^0.6.2",
     "json-date-parser": "^1.0.1",
-    "lokijs": "^1.5.8",
+    "lokijs": "^1.5.11",
     "onec-syntaxparser": "0.1.11",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "request-progress": "^3.0.0",
-    "request-promise-native": "^1.0.8",
-    "semver": "^7.1.1",
-    "vsce": "^1.75.0",
-    "vscode-languageclient": "^6.1.0",
+    "request-promise-native": "^1.0.9",
+    "semver": "^7.3.2",
+    "vscode-languageclient": "^6.1.3",
     "which": "^2.0.2",
     "xml2js": "^0.4.23"
   },
