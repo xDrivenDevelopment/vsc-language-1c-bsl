@@ -3,7 +3,7 @@
   "displayName": "Language 1C (BSL)",
   "description": "Syntax highlighting for 1C:Enterprise 8.",
   "icon": "images/1c-syntax.png",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "publisher": "1c-syntax",
   "galleryBanner": {
     "color": "#0000FF",
@@ -198,6 +198,22 @@
           "type": "string",
           "default": ".bsl-language-server.json"
         },
+        "bsl.trace.server": {
+          "type": "string",
+          "scope": "window",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "enumDescriptions": [
+            "No traces",
+            "Error only",
+            "Full log"
+          ],
+          "default": "off",
+          "description": "Trace requests to the BSL Language Server"
+        },
         "language-1c-bsl.downloadLanguageServer": {
           "description": "Download the BSL Language Server from GitHub",
           "type": "boolean",
@@ -371,7 +387,7 @@
   "dependencies": {
     "alignment": "0.0.1",
     "cross-spawn": "^7.0.3",
-    "extract-zip": "^2.0.1",
+    "extract-zip": "1.7.0",
     "fast-xml-parser": "3.17.4",
     "filequeue": "^0.5.0",
     "fs-extra": "^9.0.1",

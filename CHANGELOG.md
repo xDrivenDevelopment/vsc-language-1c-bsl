@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.23.0
+
+* Добавлена настройка `bsl.trace.log`, позволяющая включить логирование обмена между VSCode и BSL Language Server с клиентской стороны (в отличие от `traceLog` в конфигурационном файле BSL Language Server). Логирование осуществается в отдельный канал вывода "BSL Language Server Trace Log"
+* Исправлена распаковка zip-архива BSL Language Server
+
 ## 1.22.0
 
 * Добавлена настройка `language-1c-bsl.downloadLanguageServer`, позволяющая отключить автоматические скачивание BSL Language Server с GitHub

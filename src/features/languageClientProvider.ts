@@ -159,7 +159,10 @@ export default class LanguageClientProvider {
             ],
             synchronize: {
                 fileEvents: vscode.workspace.createFileSystemWatcher("**/*.{os,bsl}")
-            }
+            },
+            traceOutputChannel: vscode.window.createOutputChannel(
+                "BSL Language Server Trace Log"
+            )
         };
 
         return new LanguageClient("bsl", "BSL Language Server", serverOptions, clientOptions);
