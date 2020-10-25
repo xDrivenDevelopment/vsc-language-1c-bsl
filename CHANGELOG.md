@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.23.1
+
+* Исправлена передача параметров настройки `language-1c-bsl.languageServerExternalJarJavaOpts`, если в массиве больше одного аргумента
+
 ## 1.23.0
 
 * Добавлена настройка `bsl.trace.log`, позволяющая включить логирование обмена между VSCode и BSL Language Server с клиентской стороны (в отличие от `traceLog` в конфигурационном файле BSL Language Server). Логирование осуществается в отдельный канал вывода "BSL Language Server Trace Log"

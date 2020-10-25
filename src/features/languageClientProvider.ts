@@ -199,7 +199,7 @@ export default class LanguageClientProvider {
             languageServerPath = `"${languageServerPath}"`;
         }
 
-        const javaOpts = Array(configuration.get("languageServerExternalJarJavaOpts"));
+        const javaOpts: string[] = configuration.get("languageServerExternalJarJavaOpts");
 
         const args: string[] = [];
         args.push(...javaOpts);
