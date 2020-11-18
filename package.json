@@ -400,7 +400,7 @@
     "request-progress": "^3.0.0",
     "request-promise-native": "^1.0.9",
     "semver": "^7.3.2",
-    "vscode-languageclient": "^6.1.3",
+    "vscode-languageclient": "^7.0.0-next.12",
     "which": "^2.0.2",
     "xml2js": "^0.4.23"
   },
