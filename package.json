@@ -376,6 +376,7 @@
     "cross-env": "^7.0.2",
     "decache": "^4.6.0",
     "istanbul": "^0.4.5",
+    "mocha": "^8.2.1",
     "remap-istanbul": "^0.13.0",
     "should": "^13.2.3",
     "snyk": "^1.406.0",
