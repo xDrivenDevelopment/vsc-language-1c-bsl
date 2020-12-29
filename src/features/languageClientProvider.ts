@@ -7,7 +7,7 @@ import {
     LanguageClient,
     LanguageClientOptions,
     ServerOptions
-} from "vscode-languageclient";
+} from "vscode-languageclient/node";
 import * as which from "which";
 import { LANGUAGE_1C_BSL_CONFIG } from "../const";
 import BSLLanguageServerDownloadChannel from "../util/bsllsDownloadChannel";

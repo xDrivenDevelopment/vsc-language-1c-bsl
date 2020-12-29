@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.24.0
+
+* Обновлен синтакс-помощник до версии 1С:Предприятие 8.3.18, OneScript 1.5.0, OneScript.Web 0.8.1
+* Обновлена зависимость vscode-languageclient
+
 ## 1.23.1
 
 * Исправлена передача параметров настройки `language-1c-bsl.languageServerExternalJarJavaOpts`, если в массиве больше одного аргумента
