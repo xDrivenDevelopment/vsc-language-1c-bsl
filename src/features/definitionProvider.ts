@@ -93,9 +93,11 @@ export default class GlobalDefinitionProvider extends AbstractProvider
                     //     continue;
                     // }
                     added[element.name] = true;
+                    const start = new vscode.Position(element.line, (element.isproc ? 9 : 7) + 1);
+                    const end = new vscode.Position(start.line, start.character + element.name.length);
                     const location = new vscode.Location(
                         element.filename ? vscode.Uri.file(element.filename) : document.uri,
-                        new vscode.Position(element.line, (element.isproc ? 9 : 7) + 1)
+                        new vscode.Range(start, end)
                     );
                     result.push(location);
                 }
