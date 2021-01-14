@@ -119,6 +119,7 @@ export default class LintProvider {
                             errorMessage,
                             vscode.DiagnosticSeverity.Error
                         );
+                        vscodeDiagnostic.code = "oscript-check";
                         if (!errorFiles[fileName]) {
                             errorFiles[fileName] = new Array<vscode.Diagnostic>();
                         }
