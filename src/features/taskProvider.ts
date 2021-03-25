@@ -151,7 +151,7 @@ export default class TaskProvider {
                 workspaceRoot,
                 "cmd",
                 // tslint:disable-next-line:no-invalid-template-strings
-                ["1bdd", "${file}", "-fail-fast", "-out", "${workspaceRoot}/exec.log"],
+                ["1bdd", "${file}", "-fail-fast", "-require", "${workspaceRoot}/features", "-out", "${workspaceRoot}/exec.log"],
                 ["$OneScript Linter"],
                 false,
                 true
@@ -167,6 +167,8 @@ export default class TaskProvider {
                     "1bdd",
                     "${fileDirname}/../${fileBasenameNoExtension}.feature",
                     "-fail-fast",
+                    "-require",
+                    "${workspaceRoot}/features",
                     "-out",
                     // tslint:disable-next-line:no-invalid-template-strings
                     "${workspaceRoot}/exec.log"
@@ -186,6 +188,8 @@ export default class TaskProvider {
                     "1bdd",
                     "${file}",
                     "-fail-fast",
+                    "-require",
+                    "${workspaceRoot}/features",
                     "-verbose",
                     "on",
                     "-out",
