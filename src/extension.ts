@@ -778,6 +778,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 }
 
+export function deactivate(): Thenable<void> | undefined {
+	if (!languageClientProvider) {
+		return undefined;
+	}
+	return languageClientProvider.stop();
+}
+
 export async function waitForBSLLSActivation() {
     while (!languageClientProvider.isBslLsReady()) {
         await delay(100);
