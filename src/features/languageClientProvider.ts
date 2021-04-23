@@ -19,6 +19,7 @@ const RESTART_COMMAND = `${LANGUAGE_1C_BSL_CONFIG}.languageServer.restart`;
 
 export default class LanguageClientProvider {
     private bslLsReady = false;
+    private languageClient: LanguageClient;
 
     public async registerLanguageClient(context: vscode.ExtensionContext, status: IStatus) {
         const configuration = vscode.workspace.getConfiguration(LANGUAGE_1C_BSL_CONFIG);
@@ -109,27 +110,32 @@ export default class LanguageClientProvider {
 
         const binaryName = this.getBinaryName(languageServerDir);
 
-        const languageClient = await this.createLanguageClient(context, binaryName);
-        let languageClientDisposable = languageClient.start();
+        this.languageClient = await this.createLanguageClient(context, binaryName);
+        this.languageClient.start();
 
         context.subscriptions.push(
             vscode.commands.registerCommand(RESTART_COMMAND, async () => {
                 this.bslLsReady = false;
-                await languageClient.stop();
-                languageClientDisposable.dispose();
+                await this.languageClient.stop();
 
-                languageClientDisposable = languageClient.start();
-                context.subscriptions.push(languageClientDisposable);
+                this.languageClient.start();
 
-                await languageClient.onReady();
+                await this.languageClient.onReady();
                 this.bslLsReady = true;
             })
         );
 
-        context.subscriptions.push(languageClientDisposable);
-
-        await languageClient.onReady();
+        await this.languageClient.onReady();
         this.bslLsReady = true;
+    }
+
+    public async stop() {
+
+        if (!this.languageClient) {
+            return undefined;
+        }
+        
+        return this.languageClient.stop();
     }
 
     public isBslLsReady() {
